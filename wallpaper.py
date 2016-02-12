@@ -12,7 +12,6 @@ class Wallpaper:
     def __init__(self, reddits = ['earthporn', 'spaceporn', 'wallpaper', 'skyporn', 'cityporn', 'abandonedporn']):
         self.tmpdir = tempfile.mkdtemp('', 'reddit_wallpaper-') + '\\'
         self.reddits = reddits
-        self.set_url()
         if self.system == 'Linux':
             import tkinter as tk
             root = tk.Tk()
@@ -23,37 +22,39 @@ class Wallpaper:
             user32 = ctypes.windll.user32
             self.width = user32.GetSystemMetrics(0)
             self.height = user32.GetSystemMetrics(1)
-        self.get_json()
-        self.get_image()
+        self.get_image_url()
         self.download_image()
         self.set_wallpaper(self.tmpdir + self.img_url.split('/')[-1])
 
     def __del__(self):
         shutil.rmtree(self.tmpdir, True)
 
-    def set_url(self):
-        self.url = 'https://www.reddit.com/r/'
+    def get_url(self, amount=5):
+        url = 'https://www.reddit.com/r/'
         for r in self.reddits:
-            self.url = self.url + r + '+'
-        self.url += '/top.json?t=day&limit=50'
+            url = url + r + '+'
+        url += '/top.json?t=day&limit=' + str(amount)
+        return url
 
-    def get_json(self):
-        r = requests.get(self.url, headers=self.headers)
+    def get_json(self, amount=5):
+        r = requests.get(self.get_url(amount), headers=self.headers)
         if r.status_code == 200:
-            self.json = r.json()
+            return r.json()
         else:
             raise Exception('No valid subreddit specified')
 
-    def get_image(self):
-        for image in self.json['data']['children']:
-            image_width = image['data']['preview']['images'][0]['source']['width']
-            image_height = image['data']['preview']['images'][0]['source']['height']
-            if image_width > image_height and image_width >= self.width and image_height >= self.height:
-                img_url = image['data']['url']
-                img_url_ext = os.path.splitext(img_url)[1]
-                if img_url_ext in ['.jpg', '.jpeg', '.png', '.bmp']:
-                    self.img_url = img_url
-                    return
+    def get_image_url(self):
+        for amount in range(5, 105, 5):
+            json = self.get_json(amount)
+            for image in json['data']['children']:
+                image_width = image['data']['preview']['images'][0]['source']['width']
+                image_height = image['data']['preview']['images'][0]['source']['height']
+                if image_width > image_height and image_width >= self.width and image_height >= self.height:
+                    img_url = image['data']['url']
+                    img_url_ext = os.path.splitext(img_url)[1]
+                    if img_url_ext in ['.jpg', '.jpeg', '.png', '.bmp']:
+                        self.img_url = img_url
+                        return
         raise Exception('No image could be retrieved')
 
     def download_image(self):
@@ -74,5 +75,5 @@ class Wallpaper:
 
 
 if __name__ == '__main__':
-    w = Wallpaper(['abandonedporn'])
+    w = Wallpaper()
     print(w.img_url)
