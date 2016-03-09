@@ -23,3 +23,6 @@ SOFTWARE.
 The python module 'requests' is licensed under the Apache License, Version 2.0
 No changes to the core files were made.
 http://www.apache.org/licenses/LICENSE-2.0
+
+The icon for the `icon.png` and `icon.ico` is taken from Yummygum’s Iconsweets iconset,
+and is used under the terms of its license (http://yummygum.com/work/iconsweets).

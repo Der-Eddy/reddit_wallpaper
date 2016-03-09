@@ -9,9 +9,10 @@ class Wallpaper:
     system = platform.system()
     headers = {'user-agent': system.lower() + ':reddit_wallpaper:v.1.0 (by /u/dereddy)'}
 
-    def __init__(self, reddits = ['earthporn', 'spaceporn', 'wallpaper', 'skyporn', 'cityporn', 'abandonedporn']):
+    def __init__(self, reddits = ['earthporn', 'spaceporn', 'skyporn', 'cityporn', 'abandonedporn'], delete=True):
         self.tmpdir = tempfile.mkdtemp('', 'reddit_wallpaper-') + '\\'
         self.reddits = reddits
+        self.delete_flag = delete
         if self.system == 'Linux':
             import tkinter as tk
             root = tk.Tk()
@@ -27,7 +28,8 @@ class Wallpaper:
         self.set_wallpaper(self.tmpdir + self.img_url.split('/')[-1])
 
     def __del__(self):
-        shutil.rmtree(self.tmpdir, True)
+        if self.delete_flag == True:
+            shutil.rmtree(self.tmpdir, True)
 
     def get_url(self, amount=5):
         url = 'https://www.reddit.com/r/'

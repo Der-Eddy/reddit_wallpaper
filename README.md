@@ -1,16 +1,28 @@
 # Reddit Wallpaper
 Retrieves the top reddit image of the day from a selected list of subreddits and sets it as wallpaper.
 
-Install
+Installation (Windows)
 -------------
-Easy installations available soon
+ - Download latest setup file from here: https://github.com/Der-Eddy/reddit_wallpaper/releases
+ - Run the Setup
+
+ Running the script (With installed Python - No Setup)
+ -------------
+  - Run `python wallpaper.py`
 
 Requirements
 -------------
 
  - Windows 7 or higher or a Linux with Gnome (i.e. Debian)
  - Python 3.3 or higher
- - requests (included)
+ - [requests](http://docs.python-requests.org/en/master/user/install/#install)
+
+Building (Windows)
+-------------
+ - Install [PyInstaller](http://www.pyinstaller.org/)
+ - Run `pyinstaller --windowed --upx-dir={UPX-DIR} --distpath=dist -y --clean --icon icon.ico wallpaper.py`
+ - Install [Inno Setup](http://www.jrsoftware.org/isinfo.php)
+ - Compile `setup.iss`, you may want to change some parameters like paths
 
 Screenshots
 -------------
@@ -23,7 +35,7 @@ ToDo
 - [ ] Support for more Linux' (i.e. KDE)
 - [ ] Autostart functionality
 - [ ] Installation through pip
-- [ ] Standalone installation
+- [x] Standalone installation
 
 License
 -------------
@@ -53,3 +65,6 @@ License
     The python module 'requests' is licensed under the Apache License, Version 2.0
     No changes to the core files were made.
     http://www.apache.org/licenses/LICENSE-2.0
+
+    The icon for the `icon.png` and `icon.ico` is taken from Yummygum’s Iconsweets iconset,
+    and is used under the terms of its license (http://yummygum.com/work/iconsweets).

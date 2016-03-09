@@ -59,7 +59,8 @@ target/
 
 passwd.txt
 debug
-pyepvp/debug
-logo.psd
-modfe.py
-modcp.py
+build/
+dist/
+setup/
+icon.psd
+build.bat
